@@ -26,4 +26,8 @@ class RecordRepositoryImpl(
         recordDao.getByText(text)
     }
 
+    override suspend fun deleteRecordById(record: RecordEntity) = withContext(ioDispatcher) {
+        recordDao.deleteById(record)
+    }
+
 }

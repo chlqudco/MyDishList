@@ -11,4 +11,6 @@ interface RecordRepository {
     suspend fun getRecordItem(itemId: Long): RecordEntity?
 
     suspend fun getSearchRecordList(text: String): List<RecordEntity>?
+
+    suspend fun deleteRecordById(record: RecordEntity)
 }

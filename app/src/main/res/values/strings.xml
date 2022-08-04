@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">식후감</string>
+    <string name="deleteRecord"><u>삭제</u></string>
 </resources>

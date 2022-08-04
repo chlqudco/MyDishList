@@ -8,9 +8,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:backgroundTint="#4CAF50"
+        android:backgroundTint="#B4FFF3"
         app:cardCornerRadius="20dp"
-        app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +26,7 @@
                 android:layout_height="100dp"
                 android:layout_marginStart="20dp"
                 android:scaleType="centerCrop"
+                android:background="@drawable/ic_baseline_insert_photo_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,10 +52,12 @@
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:theme="@style/RatingBar"
                 app:layout_constraintBottom_toBottomOf="@id/itemFoodImageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/itemFoodImageView"
-                app:layout_constraintTop_toBottomOf="@id/itemFoodTitleTextView" />
+                app:layout_constraintTop_toBottomOf="@id/itemFoodTitleTextView"
+                />
 
             <TextView
                 android:id="@+id/itemFoodDateTextView"

@@ -43,7 +43,6 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         adapter = RecordListAdapter {
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("record",it)
-            intent.putExtra("uri",it.imageUrl)
             startActivity(intent)
         }
 
@@ -73,9 +72,7 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         //목록 가져오기
         CoroutineScope(Dispatchers.Main).launch {
             adapter.recordList = viewModel.getRecordList()
-            if (adapter.recordList.size > 0){
-                binding.mainNoRecordTextView.isVisible = false
-            }
+            binding.mainNoRecordTextView.isVisible = adapter.recordList.isEmpty()
             adapter.notifyDataSetChanged()
         }
     }

@@ -1,20 +1,15 @@
 package com.chlqudco.develop.mydishlist.presentation.addrecord
 
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.chlqudco.develop.mydishlist.data.entity.RecordEntity
 import com.chlqudco.develop.mydishlist.databinding.ActivityAddRecordBinding
 import com.chlqudco.develop.mydishlist.presentation.BaseActivity
-import com.chlqudco.develop.mydishlist.utility.BitmapConverter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 internal class AddRecordActivity : BaseActivity<AddRecordViewModel, ActivityAddRecordBinding>() {

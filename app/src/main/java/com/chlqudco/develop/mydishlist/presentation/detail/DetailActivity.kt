@@ -2,6 +2,7 @@ package com.chlqudco.develop.mydishlist.presentation.detail
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -24,18 +25,16 @@ internal class DetailActivity : BaseActivity<DetailViewModel, ActivityDetailBind
         super.onCreate(savedInstanceState)
 
         initViews()
-        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 10002)
-        }
     }
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun initViews(){
 
-        //이게 맞나? ㄷㄷ;;
+        //정보 불러와서 대입
         val record = intent.getParcelableExtra<RecordEntity>("record")
-        val imageUrl = intent.getStringExtra("uri")
-
+        if (record == null){
+            finish()
+        }
         record?.let {
             val date = Date(record.date)
             val sdf = SimpleDateFormat("yyyy/ MM/ dd")
@@ -43,14 +42,32 @@ internal class DetailActivity : BaseActivity<DetailViewModel, ActivityDetailBind
             binding.detailTitleTextView.text = "제목 : ${record.title}"
             binding.detailReviewTextView.text = "후기 : ${record.review}"
             binding.detailRatingTextView.text = "별점 : ${record.rating.toInt() * 2} / 10 점"
+            binding.detailPhotoImageView.setImageURI(Uri.parse(record.imageUrl))
         }
 
-        binding.detailPhotoImageView.setImageURI(null)
-        binding.detailPhotoImageView.setImageURI(Uri.parse(imageUrl))
-
-
+        //나가기 버튼
         binding.detailCloseButton.setOnClickListener {
             finish()
         }
+
+        //삭제 버튼
+        binding.detailDeleteButton.setOnClickListener {
+            //AlertDialog 띄우기
+            showAlertDialog(record!!)
+        }
+    }
+
+    private fun showAlertDialog(record: RecordEntity) {
+        AlertDialog.Builder(this)
+            .setTitle("주의")
+            .setMessage("정말 삭제하시겠습니까?")
+            .setPositiveButton("네") { dialog , _ ->
+                viewModel.deleteRecord(record)
+                dialog.cancel()
+                finish()
+            }
+            .setNegativeButton("아니오") { _, _ ->  }
+            .create()
+            .show()
     }
 }
