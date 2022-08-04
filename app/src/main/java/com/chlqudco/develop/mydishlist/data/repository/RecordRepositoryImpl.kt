@@ -22,4 +22,8 @@ class RecordRepositoryImpl(
         recordDao.getById(itemId)
     }
 
+    override suspend fun getSearchRecordList(text: String): List<RecordEntity>? = withContext(ioDispatcher){
+        recordDao.getByText(text)
+    }
+
 }

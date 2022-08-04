@@ -19,4 +19,8 @@ interface RecordDao {
     //한개 가져오기
     @Query("SELECT * FROM RecordEntity WHERE ID =:id")
     suspend fun getById(id: Long): RecordEntity?
+
+    //검색결과 가져오기
+    @Query("SELECT * FROM RecordEntity WHERE title LIKE '%' || :text || '%'")
+    suspend fun getByText(text: String): List<RecordEntity>
 }

@@ -9,4 +9,6 @@ interface RecordRepository {
     suspend fun addRecord(record: RecordEntity)
 
     suspend fun getRecordItem(itemId: Long): RecordEntity?
+
+    suspend fun getSearchRecordList(text: String): List<RecordEntity>?
 }

@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chlqudco.develop.mydishlist.databinding.ActivityMainBinding
 import com.chlqudco.develop.mydishlist.presentation.BaseActivity
@@ -32,6 +33,7 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         initViews()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initViews() {
 
         //다크모드 금지
@@ -53,6 +55,14 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         binding.mainFloatingButton.setOnClickListener {
             val intent = Intent(this,AddRecordActivity::class.java)
             startActivity(intent)
+        }
+
+        //검색 창 리스너
+        binding.mainSearchEditText.addTextChangedListener {  editab ->
+            CoroutineScope(Dispatchers.Main).launch {
+                adapter.recordList = viewModel.getSearchList(editab.toString()) ?: emptyList()
+                adapter.notifyDataSetChanged()
+            }
         }
     }
 

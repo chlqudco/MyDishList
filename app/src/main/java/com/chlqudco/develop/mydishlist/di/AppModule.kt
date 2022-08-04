@@ -7,6 +7,7 @@ import com.chlqudco.develop.mydishlist.data.repository.RecordRepositoryImpl
 import com.chlqudco.develop.mydishlist.domain.Record.AddRecordUseCase
 import com.chlqudco.develop.mydishlist.domain.Record.GetRecordItemUseCase
 import com.chlqudco.develop.mydishlist.domain.Record.GetRecordListUseCase
+import com.chlqudco.develop.mydishlist.domain.Record.GetSearchRecordUseCase
 import com.chlqudco.develop.mydishlist.presentation.addrecord.AddRecordViewModel
 import com.chlqudco.develop.mydishlist.presentation.detail.DetailViewModel
 import com.chlqudco.develop.mydishlist.presentation.main.MainViewModel
@@ -22,7 +23,7 @@ internal val appModule = module{
     single { Dispatchers.IO }
 
     //뷰모델
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), get()) }
     viewModel { AddRecordViewModel(get())}
     viewModel { DetailViewModel() }
 
@@ -30,6 +31,7 @@ internal val appModule = module{
     factory { GetRecordListUseCase(get()) }
     factory { AddRecordUseCase(get()) }
     factory { GetRecordItemUseCase(get()) }
+    factory { GetSearchRecordUseCase(get()) }
 
     //레포지토리
     single<RecordRepository> { RecordRepositoryImpl(get(),get()) }
