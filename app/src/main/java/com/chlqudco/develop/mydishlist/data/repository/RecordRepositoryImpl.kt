@@ -14,4 +14,12 @@ class RecordRepositoryImpl(
         recordDao.getAll()
     }
 
+    override suspend fun addRecord(record: RecordEntity) = withContext(ioDispatcher) {
+        recordDao.insertRecord(record)
+    }
+
+    override suspend fun getRecordItem(itemId: Long): RecordEntity? = withContext(ioDispatcher) {
+        recordDao.getById(itemId)
+    }
+
 }
