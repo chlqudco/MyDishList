@@ -22,7 +22,7 @@ internal val appModule = module{
 
     //뷰모델
     viewModel { MainViewModel(get()) }
-    viewModel { AddRecordViewModel(get(),get(), get())}
+    viewModel { AddRecordViewModel(get())}
 
     //유스케이스
     factory { GetRecordListUseCase(get()) }

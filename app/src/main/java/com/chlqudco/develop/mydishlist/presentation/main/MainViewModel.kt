@@ -13,15 +13,15 @@ internal class MainViewModel(
     val getRecordListUseCase: GetRecordListUseCase
 ): BaseViewModel() {
 
-    private val _recordListStateLiveData = MutableLiveData<MainState>(MainState.UnInitialized)
-    val recordListStateLiveData: LiveData<MainState> = _recordListStateLiveData
     var recordList: List<RecordEntity> = mutableListOf()
 
     //이게 맞아??
     override fun fetchData(): Job = viewModelScope.launch{
-        _recordListStateLiveData.postValue(MainState.Loading)
-        _recordListStateLiveData.postValue(MainState.Success(getRecordListUseCase()))
         recordList = getRecordListUseCase()
+    }
+
+    suspend fun getRecordList(): List<RecordEntity>{
+        return getRecordListUseCase()
     }
 
 }

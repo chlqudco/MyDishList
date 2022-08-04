@@ -11,7 +11,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:hint="제목을 입력해 주세요"
@@ -36,5 +36,39 @@
         android:layout_margin="20dp"
         android:text="저장하기"
         android:layout_height="wrap_content"/>
+
+
+    <Button
+        android:id="@+id/addRecordGetPhotoButton"
+        android:text="사진 불러오기"
+        app:layout_constraintStart_toStartOf="@id/addRecordRatingBar"
+        app:layout_constraintEnd_toEndOf="@id/addRecordRatingBar"
+        app:layout_constraintTop_toBottomOf="@id/addRecordRatingBar"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/addRecordPhotoImageView"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        app:layout_constraintStart_toStartOf="@id/addRecordGetPhotoButton"
+        app:layout_constraintEnd_toEndOf="@id/addRecordGetPhotoButton"
+        app:layout_constraintTop_toBottomOf="@id/addRecordGetPhotoButton"
+        android:background="#DADADA"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/addRecordReviewEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addRecordPhotoImageView"
+        app:layout_constraintBottom_toTopOf="@id/addRecordSaveButton"
+        android:layout_margin="20sp"
+        android:hint="후기를 입력해주세요."
+        android:gravity="top"
+        android:layout_width="0dp"
+        android:background="#DFDFDF"
+        android:layout_height="0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

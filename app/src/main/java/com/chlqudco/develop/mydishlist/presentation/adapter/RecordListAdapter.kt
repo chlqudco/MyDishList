@@ -1,50 +1,49 @@
 package com.chlqudco.develop.mydishlist.presentation.adapter
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chlqudco.develop.mydishlist.data.entity.RecordEntity
 import com.chlqudco.develop.mydishlist.databinding.ItemFoodBinding
+import com.chlqudco.develop.mydishlist.utility.BitmapConverter
+import java.text.SimpleDateFormat
+import java.util.*
 
-class RecordListAdapter: RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
+class RecordListAdapter: RecyclerView.Adapter<RecordListAdapter.RecordViewHolder>() {
 
-    var recordList: List<RecordEntity> = listOf()
-    private lateinit var recordItemClickListener: (RecordEntity) -> Unit
+    var recordList: List<RecordEntity> = mutableListOf()
 
-    inner class ViewHolder(
-        val binding: ItemFoodBinding,
-        val recordItemClickListener: (RecordEntity)-> Unit): RecyclerView.ViewHolder(binding.root) {
+    inner class RecordViewHolder(private val binding: ItemFoodBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(record: RecordEntity){
             binding.itemFoodRatingBar.rating = record.rating
             binding.itemFoodTitleTextView.text = record.title
-        }
 
-        fun bindViews(data: RecordEntity){
-            binding.root.setOnClickListener {
-                recordItemClickListener(data)
+            val date = Date(record.date)
+            val sdf = SimpleDateFormat("yyyy/ MM/ dd")
+            binding.itemFoodDateTextView.text = sdf.format(date)
+
+            record.imageUrl?.let {
+                binding.itemFoodImageView.setImageURI(Uri.parse(it))
             }
+
+            //클릭 시 상세페이지 이동
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemFoodBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false), recordItemClickListener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordViewHolder {
+        return RecordViewHolder(
+            ItemFoodBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecordViewHolder, position: Int) {
         holder.bind(recordList[position])
-        holder.bindViews(recordList[position])
     }
 
     override fun getItemCount(): Int {
         return recordList.size
     }
 
-    fun setRecordList(recordList: List<RecordEntity>, recordItemClickListener: (RecordEntity) -> Unit = {}){
-        this.recordList = recordList
-        this.recordItemClickListener = recordItemClickListener
-        notifyDataSetChanged()
-    }
 }

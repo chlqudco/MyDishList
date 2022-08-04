@@ -1,69 +1,98 @@
 package com.chlqudco.develop.mydishlist.presentation.addrecord
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.chlqudco.develop.mydishlist.data.entity.RecordEntity
 import com.chlqudco.develop.mydishlist.databinding.ActivityAddRecordBinding
 import com.chlqudco.develop.mydishlist.presentation.BaseActivity
+import com.chlqudco.develop.mydishlist.utility.BitmapConverter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 
 internal class AddRecordActivity : BaseActivity<AddRecordViewModel, ActivityAddRecordBinding>() {
 
-    override val viewModel by viewModel<AddRecordViewModel>{
-        parametersOf(intent.getLongExtra(RECORD_ID_KEY, -1))
-    }
+    override val viewModel by viewModel<AddRecordViewModel>()
 
     override fun getViewBinding(): ActivityAddRecordBinding = ActivityAddRecordBinding.inflate(layoutInflater)
 
-    override fun observeData() = viewModel.addRecordState.observe(this) {
-        when(it){
-            is AddRecordState.UnInitialized -> initViews()
-            is AddRecordState.Loading -> handleLoading()
-            is AddRecordState.Add -> handleAdd()
-            is AddRecordState.Error -> handleError()
-            is AddRecordState.Success -> handleSuccess(it)
+    override fun observeData() {}
+
+    private lateinit var getResult: ActivityResultLauncher<Intent>
+    private var imageUri: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        initViews()
+
+        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result->
+            if (result.resultCode == RESULT_OK){
+                result.data?.data?.let {
+                    //val bitmap = it as Bitmap
+                    imageUri = it.toString()
+                    //binding.addRecordPhotoImageView.setImageBitmap(bitmap)
+                    binding.addRecordPhotoImageView.setImageURI(it)
+                }
+            }
         }
     }
 
     private fun initViews() {
+
+        //사진 가져오기 버튼
+        binding.addRecordGetPhotoButton.setOnClickListener {
+
+            //권한 받아오기
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                navigatePhoto()
+            }
+            else{
+                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1000)
+            }
+
+        }
+
+        //추가 버튼
         binding.addRecordSaveButton.setOnClickListener {
             val title = binding.addRecordTitleEditText.text.toString()
             val rating = binding.addRecordRatingBar.rating
-            val record = RecordEntity(0, title ,rating)
+            val record = RecordEntity(null, title ,rating, System.currentTimeMillis(), imageUri)
             viewModel.addRecord(record)
             Toast.makeText(this,"추가 되었습니다.",Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
-    private fun handleLoading(){
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-    }
-
-    private fun handleSuccess(state: AddRecordState.Success){
-
-    }
-
-    private fun handleError(){
-
-    }
-
-    private fun handleAdd(){
-        setResult(ADD_RECORD_RESULT_CODE)
-        finish()
-    }
-
-    companion object{
-
-        const val RECORD_ID_KEY = "RECORD_ID_KEY"
-
-        const val ADD_RECORD_RESULT_CODE = 99
-
-        fun newIntent(context: Context, recordId: Long) = Intent(context, AddRecordActivity::class.java).apply{
-            putExtra(RECORD_ID_KEY, recordId)
+        when(requestCode){
+            1000 -> {
+                if (grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    navigatePhoto()
+                }else{
+                    Toast.makeText(this, "권한 확인 필요", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
+    }
+
+    private fun navigatePhoto() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        getResult.launch(intent)
     }
 
 }
