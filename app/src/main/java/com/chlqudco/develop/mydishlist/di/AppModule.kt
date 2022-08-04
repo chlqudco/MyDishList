@@ -8,6 +8,7 @@ import com.chlqudco.develop.mydishlist.domain.Record.AddRecordUseCase
 import com.chlqudco.develop.mydishlist.domain.Record.GetRecordItemUseCase
 import com.chlqudco.develop.mydishlist.domain.Record.GetRecordListUseCase
 import com.chlqudco.develop.mydishlist.presentation.addrecord.AddRecordViewModel
+import com.chlqudco.develop.mydishlist.presentation.detail.DetailViewModel
 import com.chlqudco.develop.mydishlist.presentation.main.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication
@@ -23,6 +24,7 @@ internal val appModule = module{
     //뷰모델
     viewModel { MainViewModel(get()) }
     viewModel { AddRecordViewModel(get())}
+    viewModel { DetailViewModel() }
 
     //유스케이스
     factory { GetRecordListUseCase(get()) }

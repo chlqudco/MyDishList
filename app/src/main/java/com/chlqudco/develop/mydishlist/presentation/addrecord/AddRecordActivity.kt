@@ -36,6 +36,7 @@ internal class AddRecordActivity : BaseActivity<AddRecordViewModel, ActivityAddR
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result->
             if (result.resultCode == RESULT_OK){
                 result.data?.data?.let {
+                    contentResolver.takePersistableUriPermission(it,Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     //val bitmap = it as Bitmap
                     imageUri = it.toString()
                     //binding.addRecordPhotoImageView.setImageBitmap(bitmap)
@@ -64,7 +65,8 @@ internal class AddRecordActivity : BaseActivity<AddRecordViewModel, ActivityAddR
         binding.addRecordSaveButton.setOnClickListener {
             val title = binding.addRecordTitleEditText.text.toString()
             val rating = binding.addRecordRatingBar.rating
-            val record = RecordEntity(null, title ,rating, System.currentTimeMillis(), imageUri)
+            val review = binding.addRecordReviewEditText.text.toString()
+            val record = RecordEntity(null, title ,rating, System.currentTimeMillis(), review, imageUri)
             viewModel.addRecord(record)
             Toast.makeText(this,"추가 되었습니다.",Toast.LENGTH_SHORT).show()
             finish()
@@ -90,7 +92,7 @@ internal class AddRecordActivity : BaseActivity<AddRecordViewModel, ActivityAddR
     }
 
     private fun navigatePhoto() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         getResult.launch(intent)
     }

@@ -12,6 +12,7 @@ import com.chlqudco.develop.mydishlist.databinding.ActivityMainBinding
 import com.chlqudco.develop.mydishlist.presentation.BaseActivity
 import com.chlqudco.develop.mydishlist.presentation.adapter.RecordListAdapter
 import com.chlqudco.develop.mydishlist.presentation.addrecord.AddRecordActivity
+import com.chlqudco.develop.mydishlist.presentation.detail.DetailActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
 
     override fun getViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
 
-    private val adapter = RecordListAdapter()
+    private lateinit var adapter: RecordListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +33,17 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
     }
 
     private fun initViews() {
+
         //다크모드 금지
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        //어댑터 초기화
+        adapter = RecordListAdapter {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("record",it)
+            intent.putExtra("uri",it.imageUrl)
+            startActivity(intent)
+        }
 
         //리사이클러뷰
         binding.mainRecyclerView.adapter = adapter
@@ -50,6 +60,7 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
     override fun onResume() {
         super.onResume()
 
+        //목록 가져오기
         CoroutineScope(Dispatchers.Main).launch {
             adapter.recordList = viewModel.getRecordList()
             if (adapter.recordList.size > 0){

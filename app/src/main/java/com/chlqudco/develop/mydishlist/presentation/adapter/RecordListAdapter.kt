@@ -6,11 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chlqudco.develop.mydishlist.data.entity.RecordEntity
 import com.chlqudco.develop.mydishlist.databinding.ItemFoodBinding
-import com.chlqudco.develop.mydishlist.utility.BitmapConverter
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RecordListAdapter: RecyclerView.Adapter<RecordListAdapter.RecordViewHolder>() {
+class RecordListAdapter(val clickedListener: (RecordEntity) -> Unit): RecyclerView.Adapter<RecordListAdapter.RecordViewHolder>() {
 
     var recordList: List<RecordEntity> = mutableListOf()
 
@@ -29,6 +28,9 @@ class RecordListAdapter: RecyclerView.Adapter<RecordListAdapter.RecordViewHolder
             }
 
             //클릭 시 상세페이지 이동
+            binding.root.setOnClickListener {
+                clickedListener(record)
+            }
         }
     }
 

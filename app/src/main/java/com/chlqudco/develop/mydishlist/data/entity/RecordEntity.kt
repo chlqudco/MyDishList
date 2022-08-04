@@ -14,5 +14,6 @@ data class RecordEntity(
     @ColumnInfo val title : String,
     @ColumnInfo val rating: Float,
     @ColumnInfo val date: Long,
+    @ColumnInfo val review: String,
     @ColumnInfo val imageUrl: String?
 ):Parcelable

@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.chlqudco.develop.mydishlist">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:name=".AppApplication"
@@ -16,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDishList"
         tools:targetApi="31">
+        <activity
+            android:name=".presentation.detail.DetailActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.addrecord.AddRecordActivity"
             android:exported="false" />
