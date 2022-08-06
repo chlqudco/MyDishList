@@ -38,3 +38,11 @@
 
 - 추후 업데이트
 	- LiveData 및 databinding 적용
+
+- 실행 화면
+- ![KakaoTalk_20220804_211651992](https://user-images.githubusercontent.com/68932465/183257208-1eb51edc-e154-4e40-b66b-cf7131b8929b.jpg)
+- ![KakaoTalk_20220804_211651992_02](https://user-images.githubusercontent.com/68932465/183257209-092adcf4-7865-456d-9a91-6634aa12da92.jpg)
+- ![KakaoTalk_20220804_211651992_03](https://user-images.githubusercontent.com/68932465/183257210-14aaa17f-1fdd-48a6-9478-487cd994cfd4.jpg)
+- ![KakaoTalk_20220804_211651992_01](https://user-images.githubusercontent.com/68932465/183257211-9102ada5-a617-4af8-a3da-cfe988bfc663.jpg)
+- ![KakaoTalk_20220804_211651992_04](https://user-images.githubusercontent.com/68932465/183257212-4fd1ae35-adee-40f5-b02d-c07eec253b70.jpg)
+
